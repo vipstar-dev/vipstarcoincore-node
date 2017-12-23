@@ -129,7 +129,7 @@ Edit `htmlcoincore-node.json` with something similar to:
 }
 ```
 
-**Note**: To install services [htmlcoin-api](https://github.com/HTML5/htmlcoin-api) and [htmlcoin-explorer](https://github.com/HTML5/htmlcoin-explorer) you'll need to clone the repositories locally.
+**Note**: To install services [htmlcoin-api](https://github.com/HTMLCOIN/htmlcoin-api) and [htmlcoin-explorer](https://github.com/HTMLCOIN/htmlcoin-explorer) you'll need to clone the repositories locally.
 
 Setup symlinks for all of the services and dependencies:
 

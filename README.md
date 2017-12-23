@@ -27,8 +27,8 @@ This will create a directory with configuration files for your node and install 
 
 There are several add-on services available to extend the functionality of HTMLCOINCORE:
 
-- [HTMLCOIN Insight API](https://github.com/HTML5/htmlcoin-api)
-- [HTMLCOIN Explorer](https://github.com/HTML5/htmlcoin-explorer)
+- [HTMLCOIN Insight API](https://github.com/HTMLCOIN/htmlcoin-api)
+- [HTMLCOIN Explorer](https://github.com/HTMLCOIN/htmlcoin-explorer)
 
 ## Contributing
 
