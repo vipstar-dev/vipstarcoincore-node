@@ -22,7 +22,6 @@ coverage/*
 **/*.creator
 *.log
 api/**
-bin/*
 .DS_Store
 bin/bitcoin*
 bin/SHA256SUMS.asc
