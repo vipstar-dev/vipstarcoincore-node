@@ -53,7 +53,7 @@ describe('Node Functionality', function() {
             config: {
               spawn: {
                 datadir: datadir,
-                exec: path.resolve(__dirname, '../bin/vipstarcoind')
+                exec: path.resolve(__dirname, '../bin/VIPSTARCOINd')
               }
             }
           }

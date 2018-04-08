@@ -46,7 +46,7 @@ describe('Bitcoind Functionality', function() {
       vipstarcoind = require('../').services.Bitcoin({
         spawn: {
           datadir: datadir,
-          exec: path.resolve(__dirname, '../bin/vipstarcoind')
+          exec: path.resolve(__dirname, '../bin/VIPSTARCOINd')
         },
         node: {
           network: regtestNetwork,
