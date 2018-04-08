@@ -1,34 +1,34 @@
-HTMLCOINCORE Node
+VIPSTARCOINCORE Node
 ============
 
-A HTMLCOIN full node for building applications and services with Node.js. A node is extensible and can be configured to run additional services.
+A VIPSTARCOIN full node for building applications and services with Node.js. A node is extensible and can be configured to run additional services.
 
 ## Install
 
 ```bash
-npm install -g htmlcoincore-node
-htmlcoincore-node start
+npm install -g vipstarcoincore-node
+vipstarcoincore-node start
 ```
 
 ## Configuration
 
-HTMLCOINCORE includes a Command Line Interface (CLI) for managing, configuring and interfacing with your HTMLCOINCORE Node.
+VIPSTARCOINCORE includes a Command Line Interface (CLI) for managing, configuring and interfacing with your VIPSTARCOINCORE Node.
 
 ```bash
-htmlcoincore-node create -d <data-dir> mynode
+vipstarcoincore-node create -d <data-dir> mynode
 cd mynode
-htmlcoincore-node install <service>
-htmlcoincore-node install https://github.com/yourname/helloworld
+vipstarcoincore-node install <service>
+vipstarcoincore-node install https://github.com/yourname/helloworld
 ```
 
 This will create a directory with configuration files for your node and install the necessary dependencies. For more information about (and developing) services, please see the [Service Documentation](docs/services.md).
 
 ## Add-on Services
 
-There are several add-on services available to extend the functionality of HTMLCOINCORE:
+There are several add-on services available to extend the functionality of VIPSTARCOINCORE:
 
-- [HTMLCOIN Insight API](https://github.com/HTMLCOIN/htmlcoin-api)
-- [HTMLCOIN Explorer](https://github.com/HTMLCOIN/htmlcoin-explorer)
+- [VIPSTARCOIN Insight API](https://github.com/VIPSTARCOIN/vipstarcoin-api)
+- [VIPSTARCOIN Explorer](https://github.com/VIPSTARCOIN/vipstarcoin-explorer)
 
 ## Contributing
 

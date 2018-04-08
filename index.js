@@ -6,8 +6,8 @@ module.exports.Service = require('./lib/service');
 module.exports.errors = require('./lib/errors');
 
 module.exports.services = {};
-module.exports.services.Bitcoin = require('./lib/services/htmlcoind');
-module.exports.services.HTMLCOIN = require('./lib/services/htmlcoind');
+module.exports.services.Bitcoin = require('./lib/services/vipstarcoind');
+module.exports.services.VIPSTARCOIN = require('./lib/services/vipstarcoind');
 module.exports.services.Web = require('./lib/services/web');
 
 module.exports.scaffold = {};
@@ -25,4 +25,4 @@ module.exports.cli.daemon = require('./lib/cli/daemon');
 module.exports.cli.bitcore = require('./lib/cli/bitcore');
 module.exports.cli.bitcored = require('./lib/cli/bitcored');
 
-module.exports.lib = require('htmlcoin-lib');
+module.exports.lib = require('vipstarcoin-lib');

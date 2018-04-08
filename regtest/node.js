@@ -9,13 +9,13 @@ var log = index.log;
 log.debug = function() {};
 
 var chai = require('chai');
-var bitcore = require('htmlcoin-lib');
+var bitcore = require('vipstarcoin-lib');
 var rimraf = require('rimraf');
 var node;
 
 var should = chai.should();
 
-var BitcoinRPC = require('htmlcoind-rpc');
+var BitcoinRPC = require('vipstarcoind-rpc');
 var index = require('..');
 var Transaction = bitcore.Transaction;
 var BitcoreNode = index.Node;
@@ -48,12 +48,12 @@ describe('Node Functionality', function() {
         network: 'regtest',
         services: [
           {
-            name: 'htmlcoind',
+            name: 'vipstarcoind',
             module: BitcoinService,
             config: {
               spawn: {
                 datadir: datadir,
-                exec: path.resolve(__dirname, '../bin/htmlcoind')
+                exec: path.resolve(__dirname, '../bin/vipstarcoind')
               }
             }
           }
@@ -84,13 +84,13 @@ describe('Node Functionality', function() {
         });
 
         var syncedHandler = function() {
-          if (node.services.htmlcoind.height === 150) {
-            node.services.htmlcoind.removeListener('synced', syncedHandler);
+          if (node.services.vipstarcoind.height === 150) {
+            node.services.vipstarcoind.removeListener('synced', syncedHandler);
             done();
           }
         };
 
-        node.services.htmlcoind.on('synced', syncedHandler);
+        node.services.vipstarcoind.on('synced', syncedHandler);
 
         client.generate(150, function(err) {
           if (err) {
@@ -119,9 +119,9 @@ describe('Node Functionality', function() {
       var bus = node.openBus();
       var blockExpected;
       var blockReceived;
-      bus.subscribe('htmlcoind/hashblock');
-      bus.on('htmlcoind/hashblock', function(data) {
-        bus.unsubscribe('htmlcoind/hashblock');
+      bus.subscribe('vipstarcoind/hashblock');
+      bus.on('vipstarcoind/hashblock', function(data) {
+        bus.unsubscribe('vipstarcoind/hashblock');
         if (blockExpected) {
           data.should.be.equal(blockExpected);
           done();
@@ -149,8 +149,8 @@ describe('Node Functionality', function() {
     before(function(done) {
       this.timeout(10000);
       address = testKey.toAddress(regtest).toString();
-      var startHeight = node.services.htmlcoind.height;
-      node.services.htmlcoind.on('tip', function(height) {
+      var startHeight = node.services.vipstarcoind.height;
+      node.services.vipstarcoind.on('tip', function(height) {
         if (height === startHeight + 3) {
           done();
         }
@@ -248,8 +248,8 @@ describe('Node Functionality', function() {
         /* jshint maxstatements: 50 */
 
         // Finished once all blocks have been mined
-        var startHeight = node.services.htmlcoind.height;
-        node.services.htmlcoind.on('tip', function(height) {
+        var startHeight = node.services.vipstarcoind.height;
+        node.services.vipstarcoind.on('tip', function(height) {
           if (height === startHeight + 5) {
             done();
           }
@@ -667,7 +667,7 @@ describe('Node Functionality', function() {
         tx.fee(1000);
         tx.sign(testKey);
 
-        node.services.htmlcoind.sendTransaction(tx.serialize(), function(err, hash) {
+        node.services.vipstarcoind.sendTransaction(tx.serialize(), function(err, hash) {
           node.getAddressTxids(memAddress, {}, function(err, txids) {
             if (err) {
               return done(err);

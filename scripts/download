@@ -5,19 +5,18 @@ set -e
 root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 platform=`uname -a | awk '{print tolower($1)}'`
 arch=`uname -m`
-version="2.0.0"
-url="https://downloads.bushstar.co.uk"
+version="1.0.0-beta"
+url="https://github.com/fkfk/VIPSTARCOIN/releases/download/${version}/"
 
 if [ "${platform}" == "linux" ]; then
     if [ "${arch}" == "x86_64" ]; then
-        tarball_name="htmlcoin-${version}-linux64.tar.gz"
-    elif [ "${arch}" == "x86_32" ]; then
-        tarball_name="htmlcoin-${version}-linux32.tar.gz"
+        tarball_name="VIPSTARCOIN-${version}-linux64.tar.gz"
+    else
+        echo "VIPSTARCOIN binary distribution not available for platform and architecture"
+        exit -1
     fi
-elif [ "${platform}" == "darwin" ]; then
-    tarball_name="htmlcoin-${version}-osx64.tar.gz"
 else
-    echo "htmlcoin binary distribution not available for platform and architecture"
+    echo "VIPSTARCOIN binary distribution not available for platform and architecture"
     exit -1
 fi
 
@@ -27,7 +26,7 @@ download_bitcoind() {
 
     cd "${root_dir}/bin"
 
-    echo "Downloading htmlcoin: ${binary_url}"
+    echo "Downloading VIPSTARCOIN: ${binary_url}"
 
     is_curl=true
     if hash curl 2>/dev/null; then
@@ -41,15 +40,15 @@ download_bitcoind() {
         if [ "${is_curl}" = true ]; then
             curl -L $binary_url > $tarball_name
         else
-            wget $binary_url
+            wget $binary_url -O $tarball_name
         fi
         if test -e "${tarball_name}"; then
-            echo "Unpacking htmlcoin distribution"
+            echo "Unpacking VIPSTARCOIN distribution"
             tar -xvzf $tarball_name
             return;
         fi
     fi
-    echo "htmlcoin binary distribution could not be downloaded"
+    echo "VIPSTARCOIN binary distribution could not be downloaded"
     exit -1
 }
 

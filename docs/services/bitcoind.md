@@ -1,45 +1,45 @@
-# HTMLCOINcoin Service
+# VIPSTARCOINcoin Service
 
 ## Configuration
 
-The default configuration will include a "spawn" configuration in "htmlcoind". This defines the location of the block chain database and the location of the `htmlcoind` daemon executable. The below configuration points to a local clone of `htmlcoin`, and will start `htmlcoind` automatically with your Node.js application.
+The default configuration will include a "spawn" configuration in "vipstarcoind". This defines the location of the block chain database and the location of the `vipstarcoind` daemon executable. The below configuration points to a local clone of `vipstarcoin`, and will start `vipstarcoind` automatically with your Node.js application.
 
 ```json
   "servicesConfig": {
-    "htmlcoind": {
+    "vipstarcoind": {
       "spawn": {
-        "datadir": "/home/user/.htmlcoin",
-        "exec": "/home/user/htmlcoin-core/src/htmlcoind"
+        "datadir": "/home/user/.vipstarcoin",
+        "exec": "/home/user/vipstarcoin-core/src/vipstarcoind"
       }
     }
   }
 ```
 
-It's also possible to connect to separately managed `htmlcoind` processes with round-robin quering, for example:
+It's also possible to connect to separately managed `vipstarcoind` processes with round-robin quering, for example:
 
 ```json
   "servicesConfig": {
-    "htmlcoind": {
+    "vipstarcoind": {
       "connect": [
         {
           "rpchost": "127.0.0.1",
           "rpcport": 30521,
-          "rpcuser": "htmlcoinuser1",
-          "rpcpassword": "htmlcoinrpcpassword1",
+          "rpcuser": "vipstarcoinuser1",
+          "rpcpassword": "vipstarcoinrpcpassword1",
           "zmqpubrawtx": "tcp://127.0.0.1:30611"
         },
         {
           "rpchost": "127.0.0.1",
           "rpcport": 30522,
-          "rpcuser": "htmlcoinuser2",
-          "rpcpassword": "htmlcoinrpcpassword2",
+          "rpcuser": "vipstarcoinuser2",
+          "rpcpassword": "vipstarcoinrpcpassword2",
           "zmqpubrawtx": "tcp://127.0.0.1:30622"
         },
         {
           "rpchost": "127.0.0.1",
           "rpcport": 30523,
-          "rpcuser": "htmlcoinuser3",
-          "rpcpassword": "htmlcoinrpcpassword3",
+          "rpcuser": "vipstarcoinuser3",
+          "rpcpassword": "vipstarcoinrpcpassword3",
           "zmqpubrawtx": "tcp://127.0.0.1:30633"
         }
       ]
@@ -54,7 +54,7 @@ It's also possible to connect to separately managed `htmlcoind` processes with r
 Methods are available by directly interfacing with the service:
 
 ```js
-node.services.htmlcoind.<methodName>
+node.services.vipstarcoind.<methodName>
 ```
 
 ### Chain
@@ -65,12 +65,12 @@ node.services.htmlcoind.<methodName>
 // gives the block hashes sorted from low to high within a range of timestamps
 var high = 1460393372; // Mon Apr 11 2016 12:49:25 GMT-0400 (EDT)
 var low = 1460306965; // Mon Apr 10 2016 12:49:25 GMT-0400 (EDT)
-node.services.htmlcoind.getBlockHashesByTimestamp(high, low, function(err, blockHashes) {
+node.services.vipstarcoind.getBlockHashesByTimestamp(high, low, function(err, blockHashes) {
   //...
 });
 
 // get the current tip of the chain
-node.services.htmlcoind.getBestBlockHash(function(err, blockHash) {
+node.services.vipstarcoind.getBestBlockHash(function(err, blockHash) {
   //...
 })
 ```
@@ -79,17 +79,17 @@ node.services.htmlcoind.getBestBlockHash(function(err, blockHash) {
 
 ```js
 // gives a boolean if the daemon is fully synced (not the initial block download)
-node.services.htmlcoind.isSynced(function(err, synced) {
+node.services.vipstarcoind.isSynced(function(err, synced) {
   //...
 })
 
 // gives the current estimate of blockchain download as a percentage
-node.services.htmlcoind.syncPercentage(function(err, percent) {
+node.services.vipstarcoind.syncPercentage(function(err, percent) {
   //...
 });
 
 // gives information about the chain including total number of blocks
-node.services.htmlcoind.getInfo(function(err, info) {
+node.services.vipstarcoind.getInfo(function(err, info) {
   //...
 });
 ```
@@ -99,7 +99,7 @@ node.services.htmlcoind.getInfo(function(err, info) {
 ```js
 // will generate a block for the "regtest" network (development purposes)
 var numberOfBlocks = 10;
-node.services.htmlcoind.generateBlock(numberOfBlocks, function(err, blockHashes) {
+node.services.vipstarcoind.generateBlock(numberOfBlocks, function(err, blockHashes) {
   //...
 });
 ```
@@ -108,30 +108,30 @@ node.services.htmlcoind.generateBlock(numberOfBlocks, function(err, blockHashes)
 
 **Getting Block Information**
 
-It's possible to query blocks by both block hash and by height. Blocks are given as Node.js Buffers and can be parsed via htmlcoincore:
+It's possible to query blocks by both block hash and by height. Blocks are given as Node.js Buffers and can be parsed via vipstarcoincore:
 
 ```js
 var blockHeight = 0;
-node.services.htmlcoind.getRawBlock(blockHeight, function(err, blockBuffer) {
+node.services.vipstarcoind.getRawBlock(blockHeight, function(err, blockBuffer) {
   if (err) {
     throw err;
   }
-  var block = htmlcoincore.Block.fromBuffer(blockBuffer);
+  var block = vipstarcoincore.Block.fromBuffer(blockBuffer);
   console.log(block);
 };
 
-// get a htmlcoincore object of the block (as above)
-node.services.htmlcoind.getBlock(blockHash, function(err, block) {
+// get a vipstarcoincore object of the block (as above)
+node.services.vipstarcoind.getBlock(blockHash, function(err, block) {
   //...
 };
 
 // get only the block header and index (including chain work, height, and previous hash)
-node.services.htmlcoind.getBlockHeader(blockHeight, function(err, blockHeader) {
+node.services.vipstarcoind.getBlockHeader(blockHeight, function(err, blockHeader) {
   //...
 });
 
 // get the block with a list of txids
-node.services.htmlcoind.getBlockOverview(blockHash, function(err, blockOverview) {
+node.services.vipstarcoind.getBlockOverview(blockHash, function(err, blockOverview) {
   //...
 };
 ```
@@ -142,20 +142,20 @@ Get a transaction asynchronously by reading it from disk:
 
 ```js
 var txid = '7426c707d0e9705bdd8158e60983e37d0f5d63529086d6672b07d9238d5aa623';
-node.services.htmlcoind.getRawTransaction(txid, function(err, transactionBuffer) {
+node.services.vipstarcoind.getRawTransaction(txid, function(err, transactionBuffer) {
   if (err) {
     throw err;
   }
-  var transaction = htmlcoincore.Transaction().fromBuffer(transactionBuffer);
+  var transaction = vipstarcoincore.Transaction().fromBuffer(transactionBuffer);
 });
 
-// get a htmlcoincore object of the transaction (as above)
-node.services.htmlcoind.getTransaction(txid, function(err, transaction) {
+// get a vipstarcoincore object of the transaction (as above)
+node.services.vipstarcoind.getTransaction(txid, function(err, transaction) {
   //...
 });
 
 // retrieve the transaction with input values, fees, spent and block info
-node.services.htmlcoind.getDetailedTransaction(txid, function(err, transaction) {
+node.services.vipstarcoind.getDetailedTransaction(txid, function(err, transaction) {
   //...
 });
 ```
@@ -164,11 +164,11 @@ Send a transaction to the network:
 
 ```js
 var numberOfBlocks = 3;
-node.services.htmlcoind.estimateFee(numberOfBlocks, function(err, feesPerKilobyte) {
+node.services.vipstarcoind.estimateFee(numberOfBlocks, function(err, feesPerKilobyte) {
   //...
 });
 
-node.services.htmlcoind.sendTransaction(transaction.serialize(), function(err, hash) {
+node.services.vipstarcoind.sendTransaction(transaction.serialize(), function(err, hash) {
   //...
 });
 ```
@@ -181,7 +181,7 @@ One of the most common uses will be to retrieve unspent outputs necessary to cre
 
 ```js
 var address = 'mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW';
-node.services.htmlcoind.getAddressUnspentOutputs(address, options, function(err, unspentOutputs) {
+node.services.vipstarcoind.getAddressUnspentOutputs(address, options, function(err, unspentOutputs) {
   // see below
 });
 ```
@@ -206,7 +206,7 @@ The `unspentOutputs` will have the format:
 
 ```js
 var address = 'mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW';
-node.services.htmlcoind.getAddressBalance(address, options, function(err, balance) {
+node.services.vipstarcoind.getAddressBalance(address, options, function(err, balance) {
   // balance will be in satoshis with "received" and "balance"
 });
 ```
@@ -215,7 +215,7 @@ node.services.htmlcoind.getAddressBalance(address, options, function(err, balanc
 
 This method will give history of an address limited by a range of block heights by using the "start" and "end" arguments. The "start" value is the more recent, and greater, block height. The "end" value is the older, and lesser, block height. This feature is most useful for synchronization as previous history can be omitted. Furthermore for large ranges of block heights, results can be paginated by using the "from" and "to" arguments.
 
-If "queryMempool" is set as true (it is true by default), it will show unconfirmed transactions from the htmlcoin mempool. However, if you specify "start" and "end", "queryMempool" is ignored and is always false.
+If "queryMempool" is set as true (it is true by default), it will show unconfirmed transactions from the vipstarcoin mempool. However, if you specify "start" and "end", "queryMempool" is ignored and is always false.
 
 If "queryMempoolOnly" is set as true (it is false by default), it will show *only* unconfirmed transactions from mempool.
 
@@ -226,7 +226,7 @@ var options = {
   end: 344000,
   queryMempool: true // since we presented range, queryMempool will be ignored
 };
-node.services.htmlcoind.getAddressHistory(addresses, options, function(err, history) {
+node.services.vipstarcoind.getAddressHistory(addresses, options, function(err, history) {
   // see below
 });
 ```
@@ -259,7 +259,7 @@ var options = {
   noTxList: false
 };
 
-node.services.htmlcoind.getAddressSummary(address, options, function(err, summary) {
+node.services.vipstarcoind.getAddressSummary(address, options, function(err, summary) {
   // see below
 });
 ```
@@ -288,43 +288,43 @@ The `summary` will have the format (values are in satoshis):
 
 
 ## Events
-The HTMLCOIN Service exposes two events via the Bus, and there are a few events that can be directly registered:
+The VIPSTARCOIN Service exposes two events via the Bus, and there are a few events that can be directly registered:
 
 ```js
-node.services.htmlcoind.on('tip', function(blockHash) {
+node.services.vipstarcoind.on('tip', function(blockHash) {
   // a new block tip has been added, if there is a rapid update (with a second) this will not emit every tip update
 });
 
-node.services.htmlcoind.on('tx', function(transactionBuffer) {
+node.services.vipstarcoind.on('tx', function(transactionBuffer) {
   // a new transaction has entered the mempool
 });
 
-node.services.htmlcoind.on('block', function(blockHash) {
+node.services.vipstarcoind.on('block', function(blockHash) {
   // a new block has been added
 });
 ```
 
 For details on instantiating a bus for a node, see the [Bus Documentation](../bus.md).
-- Name: `htmlcoind/rawtransaction`
-- Name: `htmlcoind/hashblock`
-- Name: `htmlcoind/addresstxid`, Arguments: [address, address...]
+- Name: `vipstarcoind/rawtransaction`
+- Name: `vipstarcoind/hashblock`
+- Name: `vipstarcoind/addresstxid`, Arguments: [address, address...]
 
 **Examples:**
 
 ```js
-bus.subscribe('htmlcoind/rawtransaction');
-bus.subscribe('htmlcoind/hashblock');
-bus.subscribe('htmlcoind/addresstxid', ['13FMwCYz3hUhwPcaWuD2M1U2KzfTtvLM89']);
+bus.subscribe('vipstarcoind/rawtransaction');
+bus.subscribe('vipstarcoind/hashblock');
+bus.subscribe('vipstarcoind/addresstxid', ['13FMwCYz3hUhwPcaWuD2M1U2KzfTtvLM89']);
 
-bus.on('htmlcoind/rawtransaction', function(transactionHex) {
+bus.on('vipstarcoind/rawtransaction', function(transactionHex) {
   //...
 });
 
-bus.on('htmlcoind/hashblock', function(blockhashHex) {
+bus.on('vipstarcoind/hashblock', function(blockhashHex) {
   //...
 });
 
-bus.on('htmlcoind/addresstxid', function(data) {
+bus.on('vipstarcoind/addresstxid', function(data) {
   // data.address;
   // data.txid;
 });

@@ -1,23 +1,23 @@
 'use strict';
 
-// To run the tests: $ mocha -R spec regtest/htmlcoind.js
+// To run the tests: $ mocha -R spec regtest/vipstarcoind.js
 
 var path = require('path');
 var index = require('..');
 var log = index.log;
 
 var chai = require('chai');
-var bitcore = require('htmlcoin-lib');
+var bitcore = require('vipstarcoin-lib');
 var BN = bitcore.crypto.BN;
 var async = require('async');
 var rimraf = require('rimraf');
-var htmlcoind;
+var vipstarcoind;
 
 /* jshint unused: false */
 var should = chai.should();
 var assert = chai.assert;
 var sinon = require('sinon');
-var BitcoinRPC = require('htmlcoind-rpc');
+var BitcoinRPC = require('vipstarcoind-rpc');
 var transactionData = [];
 var blockHashes = [];
 var utxos;
@@ -43,10 +43,10 @@ describe('Bitcoind Functionality', function() {
         throw err;
       }
 
-      htmlcoind = require('../').services.Bitcoin({
+      vipstarcoind = require('../').services.Bitcoin({
         spawn: {
           datadir: datadir,
-          exec: path.resolve(__dirname, '../bin/htmlcoind')
+          exec: path.resolve(__dirname, '../bin/vipstarcoind')
         },
         node: {
           network: regtestNetwork,
@@ -56,13 +56,13 @@ describe('Bitcoind Functionality', function() {
         }
       });
 
-      htmlcoind.on('error', function(err) {
+      vipstarcoind.on('error', function(err) {
         log.error('error="%s"', err.message);
       });
 
       log.info('Waiting for Bitcoin Core to initialize...');
 
-      htmlcoind.start(function() {
+      vipstarcoind.start(function() {
         log.info('Bitcoind started');
 
         client = new BitcoinRPC({
@@ -131,8 +131,8 @@ describe('Bitcoind Functionality', function() {
 
   after(function(done) {
     this.timeout(60000);
-    htmlcoind.node.stopping = true;
-    htmlcoind.stop(function(err, result) {
+    vipstarcoind.node.stopping = true;
+    vipstarcoind.stop(function(err, result) {
       done();
     });
   });
@@ -141,7 +141,7 @@ describe('Bitcoind Functionality', function() {
 
     [0,1,2,3,5,6,7,8,9].forEach(function(i) {
       it('generated block ' + i, function(done) {
-        htmlcoind.getBlock(blockHashes[i], function(err, block) {
+        vipstarcoind.getBlock(blockHashes[i], function(err, block) {
           if (err) {
             throw err;
           }
@@ -156,7 +156,7 @@ describe('Bitcoind Functionality', function() {
   describe('get blocks as buffers', function() {
     [0,1,2,3,5,6,7,8,9].forEach(function(i) {
       it('generated block ' + i, function(done) {
-        htmlcoind.getRawBlock(blockHashes[i], function(err, block) {
+        vipstarcoind.getRawBlock(blockHashes[i], function(err, block) {
           if (err) {
             throw err;
           }
@@ -170,8 +170,8 @@ describe('Bitcoind Functionality', function() {
 
   describe('get errors as error instances', function() {
     it('will wrap an rpc into a javascript error', function(done) {
-      htmlcoind.client.getBlock(1000000000, function(err, response) {
-        var error = htmlcoind._wrapRPCError(err);
+      vipstarcoind.client.getBlock(1000000000, function(err, response) {
+        var error = vipstarcoind._wrapRPCError(err);
         (error instanceof Error).should.equal(true);
         error.message.should.equal(err.message);
         error.code.should.equal(err.code);
@@ -187,7 +187,7 @@ describe('Bitcoind Functionality', function() {
       it('generated block ' + i, function(done) {
         // add the genesis block
         var height = i + 1;
-        htmlcoind.getBlock(i + 1, function(err, block) {
+        vipstarcoind.getBlock(i + 1, function(err, block) {
           if (err) {
             throw err;
           }
@@ -199,7 +199,7 @@ describe('Bitcoind Functionality', function() {
     });
 
     it('will get error with number greater than tip', function(done) {
-      htmlcoind.getBlock(1000000000, function(err, response) {
+      vipstarcoind.getBlock(1000000000, function(err, response) {
         should.exist(err);
         err.code.should.equal(-8);
         done();
@@ -214,7 +214,7 @@ describe('Bitcoind Functionality', function() {
         var txhex = transactionData[i];
         var tx = new bitcore.Transaction();
         tx.fromString(txhex);
-        htmlcoind.getTransaction(tx.hash, function(err, response) {
+        vipstarcoind.getTransaction(tx.hash, function(err, response) {
           if (err) {
             throw err;
           }
@@ -226,7 +226,7 @@ describe('Bitcoind Functionality', function() {
 
     it('will return error if the transaction does not exist', function(done) {
       var txid = '6226c407d0e9705bdd7158e60983e37d0f5d23529086d6672b07d9238d5aa618';
-      htmlcoind.getTransaction(txid, function(err, response) {
+      vipstarcoind.getTransaction(txid, function(err, response) {
         should.exist(err);
         done();
       });
@@ -239,7 +239,7 @@ describe('Bitcoind Functionality', function() {
         var txhex = transactionData[i];
         var tx = new bitcore.Transaction();
         tx.fromString(txhex);
-        htmlcoind.getRawTransaction(tx.hash, function(err, response) {
+        vipstarcoind.getRawTransaction(tx.hash, function(err, response) {
           if (err) {
             throw err;
           }
@@ -252,7 +252,7 @@ describe('Bitcoind Functionality', function() {
 
     it('will return error if the transaction does not exist', function(done) {
       var txid = '6226c407d0e9705bdd7158e60983e37d0f5d23529086d6672b07d9238d5aa618';
-      htmlcoind.getRawTransaction(txid, function(err, response) {
+      vipstarcoind.getRawTransaction(txid, function(err, response) {
         should.exist(err);
         done();
       });
@@ -263,7 +263,7 @@ describe('Bitcoind Functionality', function() {
     var expectedWork = new BN(6);
     [1,2,3,4,5,6,7,8,9].forEach(function(i) {
       it('generate block ' + i, function(done) {
-        htmlcoind.getBlockHeader(blockHashes[i], function(err, blockIndex) {
+        vipstarcoind.getBlockHeader(blockHashes[i], function(err, blockIndex) {
           if (err) {
             return done(err);
           }
@@ -281,7 +281,7 @@ describe('Bitcoind Functionality', function() {
       });
     });
     it('will get null prevHash for the genesis block', function(done) {
-      htmlcoind.getBlockHeader(0, function(err, header) {
+      vipstarcoind.getBlockHeader(0, function(err, header) {
         if (err) {
           return done(err);
         }
@@ -291,7 +291,7 @@ describe('Bitcoind Functionality', function() {
       });
     });
     it('will get error for block not found', function(done) {
-      htmlcoind.getBlockHeader('notahash', function(err, header) {
+      vipstarcoind.getBlockHeader('notahash', function(err, header) {
         should.exist(err);
         done();
       });
@@ -302,7 +302,7 @@ describe('Bitcoind Functionality', function() {
     var expectedWork = new BN(6);
     [2,3,4,5,6,7,8,9].forEach(function(i) {
       it('generate block ' + i, function() {
-        htmlcoind.getBlockHeader(i, function(err, header) {
+        vipstarcoind.getBlockHeader(i, function(err, header) {
           should.exist(header);
           should.exist(header.chainWork);
           var work = new BN(header.chainWork, 'hex');
@@ -316,7 +316,7 @@ describe('Bitcoind Functionality', function() {
       });
     });
     it('will get error with number greater than tip', function(done) {
-      htmlcoind.getBlockHeader(100000, function(err, header) {
+      vipstarcoind.getBlockHeader(100000, function(err, header) {
         should.exist(err);
         done();
       });
@@ -335,7 +335,7 @@ describe('Bitcoind Functionality', function() {
       tx.sign(bitcore.PrivateKey.fromWIF(utxos[0].privateKeyWIF));
 
       // test sending the transaction
-      htmlcoind.sendTransaction(tx.serialize(), function(err, hash) {
+      vipstarcoind.sendTransaction(tx.serialize(), function(err, hash) {
         if (err) {
           return done(err);
         }
@@ -350,7 +350,7 @@ describe('Bitcoind Functionality', function() {
       tx.from(utxos[1]);
       tx.change(privateKey.toAddress());
       tx.to(destKey.toAddress(), utxos[1].amount * 1e8 - 1000);
-      htmlcoind.sendTransaction(tx.uncheckedSerialize(), function(err, hash) {
+      vipstarcoind.sendTransaction(tx.uncheckedSerialize(), function(err, hash) {
         should.exist(err);
         (err instanceof Error).should.equal(true);
         should.not.exist(hash);
@@ -360,11 +360,11 @@ describe('Bitcoind Functionality', function() {
 
     it('will throw an error for unexpected types (tx decode failed)', function(done) {
       var garbage = new Buffer('abcdef', 'hex');
-      htmlcoind.sendTransaction(garbage, function(err, hash) {
+      vipstarcoind.sendTransaction(garbage, function(err, hash) {
         should.exist(err);
         should.not.exist(hash);
         var num = 23;
-        htmlcoind.sendTransaction(num, function(err, hash) {
+        vipstarcoind.sendTransaction(num, function(err, hash) {
           should.exist(err);
           (err instanceof Error).should.equal(true);
           should.not.exist(hash);
@@ -382,11 +382,11 @@ describe('Bitcoind Functionality', function() {
 
       var serialized = tx.serialize();
 
-      htmlcoind.once('tx', function(buffer) {
+      vipstarcoind.once('tx', function(buffer) {
         buffer.toString('hex').should.equal(serialized);
         done();
       });
-      htmlcoind.sendTransaction(serialized, function(err, hash) {
+      vipstarcoind.sendTransaction(serialized, function(err, hash) {
         if (err) {
           return done(err);
         }
@@ -398,7 +398,7 @@ describe('Bitcoind Functionality', function() {
 
   describe('fee estimation', function() {
     it('will estimate fees', function(done) {
-      htmlcoind.estimateFee(1, function(err, fees) {
+      vipstarcoind.estimateFee(1, function(err, fees) {
         if (err) {
           return done(err);
         }
@@ -411,7 +411,7 @@ describe('Bitcoind Functionality', function() {
   describe('tip updates', function() {
     it('will get an event when the tip is new', function(done) {
       this.timeout(4000);
-      htmlcoind.on('tip', function(height) {
+      vipstarcoind.on('tip', function(height) {
         if (height === 151) {
           done();
         }
@@ -426,7 +426,7 @@ describe('Bitcoind Functionality', function() {
 
   describe('get detailed transaction', function() {
     it('should include details for coinbase tx', function(done) {
-      htmlcoind.getDetailedTransaction(utxos[0].txid, function(err, tx) {
+      vipstarcoind.getDetailedTransaction(utxos[0].txid, function(err, tx) {
         if (err) {
           return done(err);
         }
@@ -463,7 +463,7 @@ describe('Bitcoind Functionality', function() {
 
   describe('#getInfo', function() {
     it('will get information', function(done) {
-      htmlcoind.getInfo(function(err, info) {
+      vipstarcoind.getInfo(function(err, info) {
         if (err) {
           return done(err);
         }
