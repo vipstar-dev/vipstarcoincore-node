@@ -52,7 +52,7 @@ vipstarcoind.on('ready', function() {
 
   var client = new bitcoin.Client({
     host: 'localhost',
-    port: 18332,
+    port: 31915,
     user: 'bitcoin',
     pass: 'local321'
   });

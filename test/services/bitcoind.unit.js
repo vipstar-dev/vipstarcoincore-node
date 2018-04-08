@@ -782,7 +782,7 @@ describe('Bitcoin Service', function() {
         }
       };
       var qtumd = new BitcoinService(config);
-      qtumd._getDefaultConf().rpcport.should.equal(18332);
+      qtumd._getDefaultConf().rpcport.should.equal(31915);
     });
     it('will get default rpc port for regtest', function() {
       bitcore.Networks.enableRegtest();
@@ -796,7 +796,7 @@ describe('Bitcoin Service', function() {
         }
       };
       var qtumd = new BitcoinService(config);
-      qtumd._getDefaultConf().rpcport.should.equal(18332);
+      qtumd._getDefaultConf().rpcport.should.equal(31915);
     });
   });
 
