@@ -2,7 +2,7 @@
   "name": "htmlcoincore-node",
   "description": "Full node with extended capabilities using HTMLCOINCORE and HTMLCOIN Core",
   "author": "HTMLCOIN <support@htmlcoin.com>",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "main": "./index.js",
   "repository": "https://github.com/HTMLCOIN/htmlcoincore-node.git",
   "homepage": "https://github.com/HTMLCOIN/htmlcoincore-node",
