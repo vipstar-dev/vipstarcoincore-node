@@ -5,17 +5,13 @@ set -e
 root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 platform=`uname -a | awk '{print tolower($1)}'`
 arch=`uname -m`
-version="2.0.6"
-url="https://downloads.bushstar.co.uk"
+version="2.5.0"
+url="https://github.com/HTMLCOIN/HTMLCOIN/releases/tag/v${version}"
 
 if [ "${platform}" == "linux" ]; then
     if [ "${arch}" == "x86_64" ]; then
         tarball_name="htmlcoin-${version}-linux64.tar.gz"
-    elif [ "${arch}" == "x86_32" ]; then
-        tarball_name="htmlcoin-${version}-linux32.tar.gz"
     fi
-elif [ "${platform}" == "darwin" ]; then
-    tarball_name="htmlcoin-${version}-osx64.tar.gz"
 else
     echo "htmlcoin binary distribution not available for platform and architecture"
     exit -1
