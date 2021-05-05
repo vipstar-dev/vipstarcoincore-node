@@ -44,7 +44,7 @@ download_bitcoind() {
         fi
         if test -e "${tarball_name}"; then
             echo "Unpacking VIPSTARCOIN distribution"
-            tar -xvzf --strip-components=1 $tarball_name
+            tar --strip-components=1 -xf $tarball_name
             return;
         fi
     fi
