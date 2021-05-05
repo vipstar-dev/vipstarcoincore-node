@@ -24,7 +24,7 @@ binary_url="${url}/${tarball_name}"
 
 download_bitcoind() {
 
-    cd "${root_dir}/bin"
+    cd "${root_dir}"
 
     echo "Downloading VIPSTARCOIN: ${binary_url}"
 
@@ -44,7 +44,7 @@ download_bitcoind() {
         fi
         if test -e "${tarball_name}"; then
             echo "Unpacking VIPSTARCOIN distribution"
-            tar -xvzf $tarball_name
+            tar -xvzf --strip-components=1 $tarball_name
             return;
         fi
     fi
